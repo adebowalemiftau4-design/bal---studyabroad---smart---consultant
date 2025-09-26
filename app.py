@@ -1,15 +1,20 @@
 import streamlit as st
 import pandas as pd
-# ========================
-# BAL Study Abroad Smart-Consultant
-# ========================
 
+# -----------------------------
+# Page Config
+# -----------------------------
 st.set_page_config(page_title="BAL Study Abroad Smart-Consultant", layout="wide")
 
+# -----------------------------
+# Title
+# -----------------------------
 st.title("🎓 BAL Study Abroad Smart-Consultant")
-st.markdown("Helping Nigerians and international students navigate scholarships, admissions, and visa processes — all in one place.")
+st.write("Helping Nigerians and international students navigate scholarships, admissions, and visa processes — all in one place.")
 
-# Sidebar navigation
+# -----------------------------
+# Sidebar Navigation
+# -----------------------------
 menu = st.sidebar.radio("📌 Navigate", [
     "Home",
     "Scholarships & Funding",
@@ -18,15 +23,18 @@ menu = st.sidebar.radio("📌 Navigate", [
     "Document Checklist & Tracking"
 ])
 
-# ========== HOME ==========
+# -----------------------------
+# Home
+# -----------------------------
 if menu == "Home":
     st.subheader("Welcome 👋")
     st.write("This platform helps you manage your entire study-abroad journey with AI-driven guidance and tools.")
 
-# ========== SCHOLARSHIPS ==========
+# -----------------------------
+# Scholarships & Funding
+# -----------------------------
 elif menu == "Scholarships & Funding":
     st.subheader("💰 Scholarships & Funding Opportunities")
-    st.write("Here you’ll find curated scholarships and funding programs for Nigerians & international students.")
     scholarships = [
         {"name": "Chevening Scholarships (UK)", "link": "https://www.chevening.org/scholarships/"},
         {"name": "Erasmus+ (EU)", "link": "https://erasmus-plus.ec.europa.eu/"},
@@ -37,36 +45,38 @@ elif menu == "Scholarships & Funding":
     for s in scholarships:
         st.markdown(f"- [{s['name']}]({s['link']})")
 
-# ========== APPLICATION GUIDANCE ==========
+# -----------------------------
+# University Application Guidance
+# -----------------------------
 elif menu == "University Application Guidance":
     st.subheader("🏫 Direct University Application Guidance")
-    st.write("Step-by-step guide on preparing your applications:")
     st.markdown("""
-    1. Research your preferred universities and confirm entry requirements.
-    2. Prepare academic transcripts, certificates, and recommendation letters.
-    3. Draft a strong personal statement/statement of purpose (use AI assistance if needed).
-    4. Apply directly via the university’s online portal.
-    5. Track your application and deadlines here.
+    1. Research universities and check entry requirements.
+    2. Prepare transcripts, certificates, and recommendation letters.
+    3. Draft a strong personal statement (SOP).
+    4. Apply directly via university portals.
+    5. Track your application progress.
     """)
 
-# ========== VISA UPDATES ==========
+# -----------------------------
+# Visa Policy Updates
+# -----------------------------
 elif menu == "Visa Policy Updates":
     st.subheader("🛂 Real-Time Visa Policy Updates")
-    st.write("Stay updated with the latest visa rules and policies. (This section can later pull data from APIs.)")
     updates = [
-        "🇬🇧 UK: Graduate Route Visa remains available for post-study work.",
-        "🇨🇦 Canada: New cap announced for international student intake (2025).",
+        "🇬🇧 UK: Graduate Route Visa available for post-study work.",
+        "🇨🇦 Canada: New intake cap for international students (2025).",
         "🇺🇸 USA: F1 visa interview wait times reduced in Lagos & Abuja.",
-        "🇩🇪 Germany: Proof of funds requirement for blocked account updated."
+        "🇩🇪 Germany: Proof of funds requirement updated."
     ]
     for u in updates:
         st.markdown(f"- {u}")
 
-# ========== DOCUMENT CHECKLIST ==========
+# -----------------------------
+# Document Checklist & Tracking
+# -----------------------------
 elif menu == "Document Checklist & Tracking":
     st.subheader("📂 Document Checklist & Progress Tracking")
-    st.write("Mark your documents as complete to stay on track.")
-
     checklist = {
         "Passport": False,
         "Academic Transcripts": False,
@@ -79,7 +89,10 @@ elif menu == "Document Checklist & Tracking":
         "Visa Application Form": False
     }
 
+    completed = 0
     for doc in checklist:
-        checklist[doc] = st.checkbox(doc)
+        if st.checkbox(doc):
+            completed += 1
 
-    st.success(f"✅ You have completed {sum(checklist.values())}/{len(checklist)} documents!")
+    st.progress(completed / len(checklist))
+    st.write(f"✅ {completed} of {len(checklist)} documents completed")
